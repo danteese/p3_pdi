@@ -1,4 +1,9 @@
 %% Practica 3 
+
+clear all, clc;
+
+%% Seccion 1
+
 % Lectura de imagenes
 m1 = imread('museum1.jpeg');
 m2 = imread('museum2.jpeg');
@@ -7,19 +12,26 @@ tank = imread('tank.tif');
 pens = imread('pens.tif');
 clown = imread('clown.tif');
 dollar = imread('dollar.tif');
+
 %Conversion a HDR
-files = {'museum1.jpeg','museum2.jpeg','museum3.jpeg'};
+
 expTimes = [0.1000, 0.6250, 4.0000];
 hdr = makehdr(files,'RelativeExposure',expTimes./expTimes(1));
 imshow(hdr);
+title('HDR')
+set(gcf, 'Name', 'Imagen en HDR', 'NumberTitle', 'Off')
+
 %conversion a RGB
+
 rgb = tonemap(hdr);
 figure
 imshow(rgb);
+
 %de rgb a grises
 m1g = rgb2gray(m1);
 m2g = rgb2gray(m2);
 m3g = rgb2gray(m3);
+
 %historgrama museo
 figure
 subplot(3,2,1);
@@ -34,6 +46,7 @@ subplot(3,2,5);
 imshow(m3g);
 subplot(3,2,6);
 imhist(m3g,64);
+
 %histograma .tif
 figure
 subplot(4,2,1);
@@ -52,11 +65,13 @@ subplot(4,2,7);
 imshow(dollar);
 subplot(4,2,8);
 imhist(dollar,64);
+
 %Negativos museo
 m1_neg = imadjust(m1g, [0 1], [1 0]);
 m2_neg = imadjust(m2g, [0 1], [1 0]);
 m3_neg = imadjust(m3g, [0 1], [1 0]);
 figure
+
 subplot(3,2,1);
 imshow(m1_neg);
 subplot(3,2,2);
@@ -69,6 +84,7 @@ subplot(3,2,5);
 imshow(m3_neg);
 subplot(3,2,6);
 imhist(m3_neg,64);
+
 %Negativos
 tank_neg = imadjust(tank, [0 1], [1 0]);
 pens_neg = imadjust(pens, [0 1], [1 0]);
@@ -91,6 +107,7 @@ subplot(4,2,7);
 imshow(dollar_neg);
 subplot(4,2,8);
 imhist(dollar_neg,64);
+
 %Ecualizaci?n de histograma museo
 m1_eq = histeq(m1g);
 m2_eq = histeq(m2g);
@@ -108,7 +125,8 @@ subplot(3,2,5);
 imshow(m3_eq);
 subplot(3,2,6);
 imhist(m3_eq,64);
-%Ecualizaci?n de histograma
+
+%Ecualizacion de histograma
 tank_eq = histeq(tank);
 pens_eq = histeq(pens);
 clown_eq = histeq(clown);
@@ -130,7 +148,8 @@ subplot(4,2,7);
 imshow(dollar_eq);
 subplot(4,2,8);
 imhist(dollar_eq,64);
-%Funci?n logaritmica museo
+
+%Funcion logaritmica museo
 m1_log = uint8(log(double(m1g)+1) .* ((255 - 1)/log(255)));
 m2_log = uint8(log(double(m2g)+1) .* ((255 - 1)/log(255)));
 m3_log = uint8(log(double(m3g)+1) .* ((255 - 1)/log(255)));
@@ -147,7 +166,8 @@ subplot(3,2,5);
 imshow(mat2gray(m3_log));
 subplot(3,2,6);
 imhist(mat2gray(m3_log),64);
-%Funci?n logaritmica
+
+%Funcion logaritmica
 tank_log = uint8(log(double(tank)+1) .* ((255 - 1)/log(255)));
 pens_log = uint8(log(double(pens)+1) .* ((255 - 1)/log(255)));
 clown_log = uint8(log(double(clown)+1) .* ((255 - 1)/log(255)));
@@ -169,7 +189,8 @@ subplot(4,2,7);
 imshow(mat2gray(dollar_log));
 subplot(4,2,8);
 imhist(mat2gray(dollar_log),64);
-%Funci?n exponencial museo
+
+%Funcion exponencial museo
 m1_log = uint8((exp(double(m1g)) .^ (log(256) / (256-1))) - 1);
 m2_log = uint8((exp(double(m2g)) .^ (log(256) / (256-1))) - 1);
 m3_log = uint8((exp(double(m3g)) .^ (log(256) / (256-1))) - 1);
@@ -186,7 +207,8 @@ subplot(3,2,5);
 imshow(mat2gray(m3_log));
 subplot(3,2,6);
 imhist(mat2gray(m3_log),64);
-%Funci?n exponencial
+
+%Funcion exponencial
 tank_exp = uint8((exp(double(tank)) .^ (log(256) / (256-1))) - 1);
 pens_log = uint8((exp(double(pens)) .^ (log(256) / (256-1))) - 1);
 clown_log = uint8((exp(double(clown)) .^ (log(256) / (256-1))) - 1);
@@ -208,3 +230,59 @@ subplot(4,2,7);
 imshow(mat2gray(dollar_log));
 subplot(4,2,8);
 imhist(mat2gray(dollar_log),64);
+
+
+%% Seccion 2
+clear all, clc;
+
+% Airfield
+[airfield, airfield_flat, airfield_humps] = equalizaImg('airfield2.tif');
+figure('Name', 'airfield2.tif', 'NumberTitle', 'off');
+img = uint8(airfield);
+img_eq = uint8(airfield_flat);
+subplot(2,2,1), imshow(img,[],'InitialMagnification', 'fit'), title('Original');
+subplot(2,2,2), imhist(img), title('Histograma original');
+subplot(2,2,3), imshow(img_eq), title('Imagen Equalizada');
+subplot(2,2,4), imhist(img_eq), title('Histograma img equalizada');
+
+figure('Name', 'airfield2.tif humps', 'NumberTitle', 'off');
+subplot(2,2,1), imshow(img, [],'InitialMagnification', 'fit'), title('Original');
+subplot(2,2,2), imhist(img), title('Histograma original');
+subplot(2,2,3), imshow(airfield_humps), title('Imagen Equalizada (humps)');
+subplot(2,2,4), imhist(airfield_humps), title('Histograma img equalizada (humps)');
+
+% Lenna
+[lenna, lenna_flat, lenna_humps] = equalizaImg('lenna.tif');
+figure('Name', 'lenna.tif', 'NumberTitle', 'off');
+img = uint8(lenna);
+img_eq = uint8(lenna_flat);
+subplot(2,2,1), imshow(img,[],'InitialMagnification', 'fit'), title('Original');
+subplot(2,2,2), imhist(img), title('Histograma original');
+subplot(2,2,3), imshow(img_eq), title('Imagen Equalizada');
+subplot(2,2,4), imhist(img_eq), title('Histograma img equalizada');
+
+figure('Name', 'lenna.tif humps', 'NumberTitle', 'off');
+subplot(2,2,1), imshow(img, [],'InitialMagnification', 'fit'), title('Original');
+subplot(2,2,2), imhist(img), title('Histograma original');
+subplot(2,2,3), imshow(lenna_humps), title('Imagen Equalizada (humps)');
+subplot(2,2,4), imhist(lenna_humps), title('Histograma img equalizada (humps)');
+
+%% Seccion 3
+clc;
+
+disp('Esteganograf?a: Cuartel general.')
+painting = imread ('paisaje_Morfin.tif');
+
+% Get channels
+R = double(painting(:,:,1));
+G = double(painting(:,:,2));
+B = double(painting(:,:,3));
+
+% Get map from each plane
+map_6 = bitget(R,2)*64; map_5 = bitget(R,1)*32; map_4 = bitget(G,2)*16;
+map_3 = bitget(G,1)*8; map_2 = bitget(B,2)*4; map_1 = bitget(B,1)*2;
+% If the plane is not multiplied by the factor the result is noise.
+
+figure('Name', 'Mensaje oculto [SECRETO]', 'NumberTitle', 'off');
+hidden = map_6 + map_5 + map_4 + map_3 + map_2 + map_1;
+imshow(hidden,[]);
