@@ -233,7 +233,8 @@ imhist(mat2gray(dollar_log),64);
 
 
 %% Seccion 2
-clear all, clc;
+clc;
+disp('Parte 2: Mejora de histograma. Procesamiento de aircraft y Lenna')
 
 % Airfield
 [airfield, airfield_flat, airfield_humps] = equalizaImg('airfield2.tif');
@@ -283,6 +284,9 @@ map_6 = bitget(R,2)*64; map_5 = bitget(R,1)*32; map_4 = bitget(G,2)*16;
 map_3 = bitget(G,1)*8; map_2 = bitget(B,2)*4; map_1 = bitget(B,1)*2;
 % If the plane is not multiplied by the factor the result is noise.
 
-figure('Name', 'Mensaje oculto [SECRETO]', 'NumberTitle', 'off');
+
 hidden = map_6 + map_5 + map_4 + map_3 + map_2 + map_1;
+figure;
+imshow(painting, [],'InitialMagnification', 'fit'), title('Original');
+figure('Name', 'Mensaje oculto [SECRETO]', 'NumberTitle', 'off');
 imshow(hidden,[]);
