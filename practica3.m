@@ -12,20 +12,26 @@ tank = imread('tank.tif');
 pens = imread('pens.tif');
 clown = imread('clown.tif');
 dollar = imread('dollar.tif');
+files = {'museum1.jpeg','museum2.jpeg','museum3.jpeg'};
 
 %Conversion a HDR
 
+disp('Conversi?n de imagen a HDR')
 expTimes = [0.1000, 0.6250, 4.0000];
 hdr = makehdr(files,'RelativeExposure',expTimes./expTimes(1));
 imshow(hdr);
 title('HDR')
-set(gcf, 'Name', 'Imagen en HDR', 'NumberTitle', 'Off')
+set(gcf, 'Name', 'Imagen en HDR', 'NumberTitle', 'Off');
 
 %conversion a RGB
 
+disp('Conversi?n de imagen HDR a RGB')
 rgb = tonemap(hdr);
 figure
 imshow(rgb);
+title('RGB')
+set(gcf, 'Name', 'Imagen de HDR a RGB', 'NumberTitle', 'Off');
+
 
 %de rgb a grises
 m1g = rgb2gray(m1);
@@ -33,203 +39,152 @@ m2g = rgb2gray(m2);
 m3g = rgb2gray(m3);
 
 %historgrama museo
+disp('Histograma de imagenes del museo')
 figure
-subplot(3,2,1);
-imshow(m1g);
-subplot(3,2,2);
-imhist(m1g,64);
-subplot(3,2,3);
-imshow(m2g);
-subplot(3,2,4);
-imhist(m2g,64);
-subplot(3,2,5);
-imshow(m3g);
-subplot(3,2,6);
-imhist(m3g,64);
+set(gcf, 'Name', 'Histograma de museo en grises', 'NumberTitle', 'Off');
+subplot(3,2,1),imshow(m1g),title('Imagen de museo en gris 1');
+subplot(3,2,2),imhist(m1g,64),title('Histograma de museo 1');
+subplot(3,2,3),imshow(m2g),title('Imagen de museo en gris 2');
+subplot(3,2,4),imhist(m2g,64),title('Histograma de museo 2');
+subplot(3,2,5),imshow(m3g),title('Imagen de museo en gris 3');
+subplot(3,2,6),imhist(m3g,64),title('Histograma de museo 3');
 
 %histograma .tif
+disp('Histograma de imagenes .tif')
 figure
-subplot(4,2,1);
-imshow(tank);
-subplot(4,2,2);
-imhist(tank,64);
-subplot(4,2,3);
-imshow(pens);
-subplot(4,2,4);
-imhist(pens,64);
-subplot(4,2,5);
-imshow(clown);
-subplot(4,2,6);
-imhist(clown,64);
-subplot(4,2,7);
-imshow(dollar);
-subplot(4,2,8);
-imhist(dollar,64);
+set(gcf, 'Name', 'Histograma de imagenes .tif', 'NumberTitle', 'Off');
+subplot(4,2,1),imshow(tank),title('Imagen original');
+subplot(4,2,2),imhist(tank,64),title('Histograma');
+subplot(4,2,3),imshow(pens),title('Imagen original');
+subplot(4,2,4),imhist(pens,64),title('Histograma');
+subplot(4,2,5),imshow(clown),title('Imagen original');
+subplot(4,2,6),imhist(clown,64),title('Histograma');
+subplot(4,2,7),imshow(dollar),title('Imagen original');
+subplot(4,2,8),imhist(dollar,64),title('Histograma');
 
 %Negativos museo
 m1_neg = imadjust(m1g, [0 1], [1 0]);
 m2_neg = imadjust(m2g, [0 1], [1 0]);
 m3_neg = imadjust(m3g, [0 1], [1 0]);
+disp('Negativos de museo')
 figure
-
-subplot(3,2,1);
-imshow(m1_neg);
-subplot(3,2,2);
-imhist(m1_neg,64);
-subplot(3,2,3);
-imshow(m2_neg);
-subplot(3,2,4);
-imhist(m2_neg,64);
-subplot(3,2,5);
-imshow(m3_neg);
-subplot(3,2,6);
-imhist(m3_neg,64);
+set(gcf, 'Name', 'Negativos de museo', 'NumberTitle', 'Off');
+subplot(3,2,1),imshow(m1_neg),title('Imagen en negativo museo 1');
+subplot(3,2,2),imhist(m1_neg,64),title('Histograma del negativo museo 1');
+subplot(3,2,3),imshow(m2_neg),title('Imagen en negativo museo 2');
+subplot(3,2,4),imhist(m2_neg,64),title('Histograma del negativo museo 2');
+subplot(3,2,5),imshow(m3_neg),title('Imagen en negativo museo 3');
+subplot(3,2,6),imhist(m3_neg,64),title('Histograma del negativo museo 3');
 
 %Negativos
 tank_neg = imadjust(tank, [0 1], [1 0]);
 pens_neg = imadjust(pens, [0 1], [1 0]);
 clown_neg = imadjust(clown, [0 1], [1 0]);
 dollar_neg = imadjust(dollar, [0 1], [1 0]);
+disp('Negativos')
 figure
-subplot(4,2,1);
-imshow(tank_neg);
-subplot(4,2,2);
-imhist(tank_neg,64);
-subplot(4,2,3);
-imshow(pens_neg);
-subplot(4,2,4);
-imhist(pens_neg,64);
-subplot(4,2,5);
-imshow(clown_neg);
-subplot(4,2,6);
-imhist(clown_neg,64);
-subplot(4,2,7);
-imshow(dollar_neg);
-subplot(4,2,8);
-imhist(dollar_neg,64);
+set(gcf, 'Name', 'Negativos', 'NumberTitle', 'Off');
+subplot(4,2,1),imshow(tank_neg),title('Imagen en negativo');
+subplot(4,2,2),imhist(tank_neg,64),title('Histograma de imagen en negativo');
+subplot(4,2,3),imshow(pens_neg),title('Imagen en negativo');
+subplot(4,2,4),imhist(pens_neg,64),title('Histograma de imagen en negativo');
+subplot(4,2,5),imshow(clown_neg),title('Imagen en negativo');
+subplot(4,2,6),imhist(clown_neg,64),title('Histograma de imagen en negativo');
+subplot(4,2,7),imshow(dollar_neg),title('Imagen en negativo');
+subplot(4,2,8),imhist(dollar_neg,64),title('Histograma de imagen en negativo');
 
 %Ecualizaci?n de histograma museo
 m1_eq = histeq(m1g);
 m2_eq = histeq(m2g);
 m3_eq = histeq(m3g);
+disp('Ecualizaci?n de histograma museo')
 figure
-subplot(3,2,1);
-imshow(m1_eq);
-subplot(3,2,2);
-imhist(m1_eq,64);
-subplot(3,2,3);
-imshow(m2_eq);
-subplot(3,2,4);
-imhist(m2_eq,64);
-subplot(3,2,5);
-imshow(m3_eq);
-subplot(3,2,6);
-imhist(m3_eq,64);
+set(gcf, 'Name', 'Ecualizacion de histograma museo', 'NumberTitle', 'Off');
+subplot(3,2,1),imshow(m1_eq),title('Imagen equalizada de museo 1');
+subplot(3,2,2),imhist(m1_eq,64),title('Histograma equalizado de museo 1');
+subplot(3,2,3),imshow(m2_eq),title('Imagen equalizada de museo 2');
+subplot(3,2,4),imhist(m2_eq,64),title('Histograma equalizado de museo 2');
+subplot(3,2,5),imshow(m3_eq),title('Imagen equalizada de museo 3');
+subplot(3,2,6),imhist(m3_eq,64),title('Histograma equalizado de museo 3');
 
 %Ecualizacion de histograma
 tank_eq = histeq(tank);
 pens_eq = histeq(pens);
 clown_eq = histeq(clown);
 dollar_eq = histeq(dollar);
+disp('Ecualizaci?n de histograma')
 figure
-subplot(4,2,1);
-imshow(tank_eq);
-subplot(4,2,2);
-imhist(tank_eq,64);
-subplot(4,2,3);
-imshow(pens_eq);
-subplot(4,2,4);
-imhist(pens_eq,64);
-subplot(4,2,5);
-imshow(clown_eq);
-subplot(4,2,6);
-imhist(clown_eq,64);
-subplot(4,2,7);
-imshow(dollar_eq);
-subplot(4,2,8);
-imhist(dollar_eq,64);
+set(gcf, 'Name', 'Ecualizacion de histograma', 'NumberTitle', 'Off');
+subplot(4,2,1),imshow(tank_eq),title('Imagen equalizada');
+subplot(4,2,2),imhist(tank_eq,64),title('Histograma equalizado');
+subplot(4,2,3),imshow(pens_eq),title('Imagen equalizada');
+subplot(4,2,4),imhist(pens_eq,64),title('Histograma equalizado');
+subplot(4,2,5),imshow(clown_eq),title('Imagen equalizada');
+subplot(4,2,6),imhist(clown_eq,64),title('Histograma equalizado');
+subplot(4,2,7),imshow(dollar_eq),title('Imagen equalizada');
+subplot(4,2,8),imhist(dollar_eq,64),title('Histograma equalizado');
 
 %Funcion logaritmica museo
 m1_log = uint8(log(double(m1g)+1) .* ((255 - 1)/log(255)));
 m2_log = uint8(log(double(m2g)+1) .* ((255 - 1)/log(255)));
 m3_log = uint8(log(double(m3g)+1) .* ((255 - 1)/log(255)));
+disp('Funci?n logaritmica museo')
 figure
-subplot(3,2,1);
-imshow(mat2gray(m1_log));
-subplot(3,2,2);
-imhist(mat2gray(m1_log),64);
-subplot(3,2,3);
-imshow(mat2gray(m2_log));
-subplot(3,2,4);
-imhist(mat2gray(m2_log),64);
-subplot(3,2,5);
-imshow(mat2gray(m3_log));
-subplot(3,2,6);
-imhist(mat2gray(m3_log),64);
+set(gcf, 'Name', 'Funcion logaritmica museo', 'NumberTitle', 'Off');
+subplot(3,2,1),imshow(mat2gray(m1_log)),title('Imagen logaritmica museo 1');
+subplot(3,2,2),imhist(mat2gray(m1_log),64),title('Histograma logaritmico museo 1');
+subplot(3,2,3),imshow(mat2gray(m2_log)),title('Imagen logaritmica museo 2');
+subplot(3,2,4),imhist(mat2gray(m2_log),64),title('Histograma logaritmico museo 2');
+subplot(3,2,5),imshow(mat2gray(m3_log)),title('Imagen logaritmica museo 3');
+subplot(3,2,6),imhist(mat2gray(m3_log),64),title('Histograma logaritmico museo 3');
 
 %Funcion logaritmica
 tank_log = uint8(log(double(tank)+1) .* ((255 - 1)/log(255)));
 pens_log = uint8(log(double(pens)+1) .* ((255 - 1)/log(255)));
 clown_log = uint8(log(double(clown)+1) .* ((255 - 1)/log(255)));
 dollar_log = uint8(log(double(dollar)+1) .* ((255 - 1)/log(255)));
+disp('Funci?n logaritmica')
 figure
-subplot(4,2,1);
-imshow(mat2gray(tank_log));
-subplot(4,2,2);
-imhist(mat2gray(tank_log),64);
-subplot(4,2,3);
-imshow(mat2gray(pens_log));
-subplot(4,2,4);
-imhist(mat2gray(pens_log),64);
-subplot(4,2,5);
-imshow(mat2gray(clown_log));
-subplot(4,2,6);
-imhist(mat2gray(clown_log),64);
-subplot(4,2,7);
-imshow(mat2gray(dollar_log));
-subplot(4,2,8);
-imhist(mat2gray(dollar_log),64);
+set(gcf, 'Name', 'Funcion logaritmica', 'NumberTitle', 'Off');
+subplot(4,2,1),imshow(mat2gray(tank_log)),title('Imagen logaritmica');
+subplot(4,2,2),imhist(mat2gray(tank_log),64),title('Histograma logaritmico');
+subplot(4,2,3),imshow(mat2gray(pens_log)),title('Imagen logaritmica');
+subplot(4,2,4),imhist(mat2gray(pens_log),64),title('Histograma logaritmico');
+subplot(4,2,5),imshow(mat2gray(clown_log)),title('Imagen logaritmica');
+subplot(4,2,6),imhist(mat2gray(clown_log),64),title('Histograma logaritmico');
+subplot(4,2,7),imshow(mat2gray(dollar_log)),title('Imagen logaritmica');
+subplot(4,2,8),imhist(mat2gray(dollar_log),64),title('Histograma logaritmico');
 
 %Funcion exponencial museo
 m1_log = uint8((exp(double(m1g)) .^ (log(256) / (256-1))) - 1);
 m2_log = uint8((exp(double(m2g)) .^ (log(256) / (256-1))) - 1);
 m3_log = uint8((exp(double(m3g)) .^ (log(256) / (256-1))) - 1);
+disp('Funci?n exponencial museo')
 figure;
-subplot(3,2,1);
-imshow(mat2gray(m1_log));
-subplot(3,2,2);
-imhist(mat2gray(m1_log),64);
-subplot(3,2,3);
-imshow(mat2gray(m2_log));
-subplot(3,2,4);
-imhist(mat2gray(m2_log),64);
-subplot(3,2,5);
-imshow(mat2gray(m3_log));
-subplot(3,2,6);
-imhist(mat2gray(m3_log),64);
+set(gcf, 'Name', 'Funcion exponencial museo', 'NumberTitle', 'Off');
+subplot(3,2,1),imshow(mat2gray(m1_log)),title('Imagen exponencial museo 1');
+subplot(3,2,2),imhist(mat2gray(m1_log),64),title('Histograma exponencial museo 1');
+subplot(3,2,3),imshow(mat2gray(m2_log)),title('Imagen exponencial museo 2');
+subplot(3,2,4),imhist(mat2gray(m2_log),64),title('Histograma exponencial museo 2');
+subplot(3,2,5),imshow(mat2gray(m3_log)),title('Imagen exponencial museo 3');
+subplot(3,2,6),imhist(mat2gray(m3_log),64),title('Histograma exponencial museo 3');
 
 %Funcion exponencial
 tank_exp = uint8((exp(double(tank)) .^ (log(256) / (256-1))) - 1);
 pens_log = uint8((exp(double(pens)) .^ (log(256) / (256-1))) - 1);
 clown_log = uint8((exp(double(clown)) .^ (log(256) / (256-1))) - 1);
 dollar_log = uint8((exp(double(dollar)) .^ (log(256) / (256-1))) - 1);
+disp('Funci?n exponencial museo')
 figure
-subplot(4,2,1);
-imshow(tank_exp);
-subplot(4,2,2);
-imhist(tank_exp,64);
-subplot(4,2,3);
-imshow(mat2gray(pens_log));
-subplot(4,2,4);
-imhist(mat2gray(pens_log),64);
-subplot(4,2,5);
-imshow(mat2gray(clown_log));
-subplot(4,2,6);
-imhist(mat2gray(clown_log),64);
-subplot(4,2,7);
-imshow(mat2gray(dollar_log));
-subplot(4,2,8);
-imhist(mat2gray(dollar_log),64);
+set(gcf, 'Name', 'Funcion exponencial', 'NumberTitle', 'Off');
+subplot(4,2,1),imshow(mat2gray(tank_exp)),title('Imagen exponencial');
+subplot(4,2,2),imhist(mat2gray(tank_exp),64),title('Histograma exponencial');
+subplot(4,2,3),imshow(mat2gray(pens_log)),title('Imagen exponencial');
+subplot(4,2,4),imhist(mat2gray(pens_log),64),title('Histograma exponencial');
+subplot(4,2,5),imshow(mat2gray(clown_log)),title('Imagen exponencial');
+subplot(4,2,6),imhist(mat2gray(clown_log),64),title('Histograma exponencial');
+subplot(4,2,7),imshow(mat2gray(dollar_log)),title('Imagen exponencial');
+subplot(4,2,8),imhist(mat2gray(dollar_log),64),title('Histograma exponencial');
 
 
 %% Seccion 2
